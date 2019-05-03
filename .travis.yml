@@ -1,10 +1,20 @@
 language: python
 python:
-- "3.6"
+  - "3.6"
+
+services: postgresql
+
+before_install:
+  - export DJANGO_SETTINGS_MODULE=Speedway.settings
+  - export PYTHONPATH=$HOME/builds/HajnelXD/Speedway
+  - export PIP_USE_MIRRORS=true
 
 install:
-- pip install -r requirements.txt
+  - pip install -r requirements.txt
+
+before_script:
+  - psql -c "CREATE DATABASE mydb;" -U postgres
 
 # run test scripts
 script:
-- python manage.py test
+  - python manage.py test

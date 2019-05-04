@@ -35,7 +35,7 @@ class YearAPITests(TestCase):
         self.client = APIClient()
 
     def test_retrieve_year(self):
-        """Test retrieving a list of ryears"""
+        """Test retrieving a list of years"""
         res = self.client.get(YEARS_URL)
         years = Year.objects.all().order_by('-id')
         serializer = YearSerializer(years, many=True)
@@ -46,7 +46,6 @@ class YearAPITests(TestCase):
         """Test creating year"""
         payload = {'year': 2008}
         res = self.client.post(YEARS_URL, payload)
-
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         year = Year.objects.get(year=res.data['year'])
         for key in payload.keys():

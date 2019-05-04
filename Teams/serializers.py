@@ -1,4 +1,4 @@
-from Teams.models import Year
+from Teams.models import Year, Team
 import datetime
 from rest_framework import serializers
 from django.db import IntegrityError
@@ -23,3 +23,17 @@ class YearSerializer(serializers.Serializer):
             return Year.objects.create(**validated_data)
         except IntegrityError:
             raise serializers.ValidationError("Ten rok już jest w bazie")
+
+
+class TeamSerializer(serializers.Serializer):
+    team_name = serializers.CharField()
+
+    class Meta:
+        model = Team
+        fields = {'team_name', }
+
+    def create(self, validated_data):
+        try:
+            return Team.objects.create(**validated_data)
+        except IntegrityError:
+            raise serializers.ValidationError("Ta drużyna już jest w bazie")

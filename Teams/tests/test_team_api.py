@@ -25,7 +25,7 @@ def sample_team(team_name='Testowa nazwa'):
 
 
 class TeamAPITests(TestCase):
-    "Test Team API"
+    """Test Team API"""
 
     def setUp(self):
         self.client = APIClient()

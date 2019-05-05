@@ -1,4 +1,4 @@
-from Teams.models import Year, Team
+from Teams.models import Year, Team, TeamInfo
 import datetime
 from rest_framework import serializers
 from django.db import IntegrityError
@@ -16,7 +16,7 @@ class YearSerializer(serializers.Serializer):
 
     class Meta:
         model = Year
-        fields = {'year', }
+        fields = ('year', )
 
     def create(self, validated_data):
         try:
@@ -30,10 +30,33 @@ class TeamSerializer(serializers.Serializer):
 
     class Meta:
         model = Team
-        fields = {'team_name', }
+        fields = ('team_name', )
 
     def create(self, validated_data):
         try:
             return Team.objects.create(**validated_data)
         except IntegrityError:
             raise serializers.ValidationError("Ta drużyna już jest w bazie")
+
+
+class TeamInfoSerializer(serializers.Serializer):
+    team_name = TeamSerializer(many=False)
+    years_in_ekstraliga = YearSerializer(many=True)
+
+    class Meta:
+        model = TeamInfo
+        fields = ('team_name', 'years_in_ekstraliga')
+
+    def create(self, validated_data):
+        years_data = validated_data.pop('years_in_ekstraliga')
+        team_data = validated_data.pop('team_name')
+        team_name, team = Team.objects.get_or_create(**team_data)
+        try:
+            all_data = TeamInfo.objects.create(team_name=team_name, **validated_data)
+        except IntegrityError:
+            raise serializers.ValidationError("Ten klub jest już w bazie")
+            return
+        for year_data in years_data:
+            year_in_ekstraliga, year = Year.objects.get_or_create(**year_data)
+            all_data.years_in_ekstraliga.add(year_in_ekstraliga)
+        return all_data

@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Year(models.Model):
-    year = models.IntegerField(unique=True, blank=False)
+    year = models.IntegerField(unique=True)
 
     def __str__(self):
         return str(self.year)
@@ -13,3 +13,11 @@ class Team(models.Model):
 
     def __str__(self):
         return self.team_name
+
+
+class TeamInfo(models.Model):
+    team_name = models.OneToOneField(Team, on_delete=models.CASCADE)
+    years_in_ekstraliga = models.ManyToManyField(Year)
+
+    def __str__(self):
+        return self.team_name.team_name

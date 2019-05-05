@@ -1,8 +1,4 @@
-import datetime
-
 from django.test import TestCase
-from rest_framework.exceptions import ValidationError
-
 from Teams.models import Team
 from django.urls import reverse
 from rest_framework.test import APIClient

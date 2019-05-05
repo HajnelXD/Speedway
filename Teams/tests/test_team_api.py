@@ -32,6 +32,7 @@ class TeamAPITests(TestCase):
 
     def test_retrieve_team(self):
         """Test retrieving a list of teams"""
+        sample_team()
         res = self.client.get(TEAMS_URL)
         teams = Team.objects.all().order_by('-id')
         serializer = TeamSerializer(teams, many=True)

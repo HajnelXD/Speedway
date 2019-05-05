@@ -23,7 +23,7 @@ class ModelYearsTests(TestCase):
         self.assertEqual(str(sample_year), str(sample_year.year))
 
 
-def sample_year(year='2007'):
+def sample_year(year):
     """Create sample year"""
     return Year.objects.create(year=year)
 
@@ -36,6 +36,7 @@ class YearAPITests(TestCase):
 
     def test_retrieve_year(self):
         """Test retrieving a list of years"""
+        sample_year(year=2007)
         res = self.client.get(YEARS_URL)
         years = Year.objects.all().order_by('-id')
         serializer = YearSerializer(years, many=True)
@@ -53,7 +54,7 @@ class YearAPITests(TestCase):
 
     def test_add_exist_year(self):
         """test of adding an existing year"""
-        sample_year()
+        sample_year(2007)
         payload = {'year': 2007}
         res = self.client.post(YEARS_URL, payload)
         self.assertRaises(IntegrityError)

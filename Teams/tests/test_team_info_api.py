@@ -11,6 +11,26 @@ from django.db import IntegrityError
 TEAMS_INFO_URL = reverse('teamsinfo')
 
 
+class TeamsInfoAPITests(TestCase):
+    """Test Team Info model"""
+    def test_team_info_str(self):
+        """Test year string representation"""
+        sample_team = Team.objects.create(
+            team_name='testowa drużyna'
+        )
+        sample_year = Year.objects.create(
+            year=2009
+        )
+        sample_year2 = Year.objects.create(
+            year=2010
+        )
+        team_info = TeamInfo(team_name=sample_team)
+        team_info.save()
+        team_info.years_in_ekstraliga.add(sample_year)
+        team_info.years_in_ekstraliga.add(sample_year2)
+        team_info.save()
+        self.assertEqual(str(team_info), str(sample_team))
+
 # class TeamsInfoAPITests(TestCase):
 #     """Test team information model"""
 #     def test_create_team_info(self):

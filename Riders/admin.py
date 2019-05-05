@@ -1,3 +1,5 @@
 from django.contrib import admin
+from Riders.models import RiderInfo, Rider
 
-# Register your models here.
+admin.site.register(Rider)
+admin.site.register(RiderInfo)

@@ -46,7 +46,6 @@ class TeamsInfoList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        print(request.data)
         serializer = TeamInfoSerializer(data=request.data, many=False)
         if serializer.is_valid():
             serializer.save()

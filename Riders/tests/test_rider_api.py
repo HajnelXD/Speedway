@@ -1,11 +1,17 @@
+from django.db import IntegrityError
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 from Riders.models import Rider
-from Riders.seralizers import RiederSerializer
+from Riders.seralizers import RiderSerializer
 
 RIDERS_URL = reverse('riders')
+
+
+def sample_rider(team_name='Testowa nazwa'):
+    """Create sample rider"""
+    return Rider.objects.create(last_name="Kowalski", first_name="Andrzej")
 
 
 class ModelRiderTests(TestCase):
@@ -26,9 +32,10 @@ class RidersAPITests(TestCase):
 
     def test_retrieve_rider(self):
         """Test retrieving a list of teams"""
+        sample_rider()
         res = self.client.get(RIDERS_URL)
         riders = Rider.objects.all().order_by("-id")
-        serializer = RiederSerializer(riders, many=True)
+        serializer = RiderSerializer(riders, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
 
@@ -40,3 +47,12 @@ class RidersAPITests(TestCase):
         rider = Rider.objects.get(last_name=res.data['last_name'])
         for key in payload.keys():
             self.assertEqual(payload[key], getattr(rider, key))
+
+    def test_exist_rider(self):
+        """Test of adding an existing rider"""
+        sample_rider()
+        payload = {'last_name': 'Kowalski', 'first_name': 'Andrzej'}
+        res = self.client.post(RIDERS_URL, payload)
+        self.assertRaises(IntegrityError)
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(res.data[0], "Ten zawodnik już jest w bazie")

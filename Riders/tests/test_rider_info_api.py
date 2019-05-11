@@ -23,7 +23,8 @@ class ModelRiderInfoTest(TestCase):
             last_name='Kowalski',
             first_name='Jan'
         )
-        rider_info = RiderInfo(id=None, team=sample_team, rider=sample_rider, year=sample_year)
+        rider_info = RiderInfo(id=None, team=sample_team, rider=sample_rider, year=sample_year,
+                               junior='N')
         rider_info.save()
         self.assertEqual(str(rider_info), str(sample_rider) + " " + str(sample_year)
                          + " " + str(sample_team))
@@ -40,7 +41,8 @@ def sample_rider_info(team_name, year, last_name, first_name):
         last_name=last_name,
         first_name=first_name
     )
-    rider_info = RiderInfo(id=None, team=sample_team, rider=sample_rider, year=sample_year)
+    rider_info = RiderInfo(id=None, team=sample_team, rider=sample_rider, year=sample_year,
+                           junior='N')
     rider_info.save()
 
 
@@ -70,7 +72,8 @@ class RiderInfoAPITest(TestCase):
                             },
                     "year": {
                                 "year": 2019
-                            }
+                            },
+                    "junior": 'N'
         }
         res = self.client.post(RIDERSINFO_URL, payload, format='json')
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
@@ -87,7 +90,8 @@ class RiderInfoAPITest(TestCase):
                             },
                     "year": {
                                 "year": 2008
-                             }
+                             },
+                    "junior": "N"
         }
         res = self.client.post(RIDERSINFO_URL, payload, format='json')
         self.assertRaises(IntegrityError)

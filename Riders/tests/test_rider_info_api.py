@@ -59,7 +59,7 @@ class RiderInfoAPITest(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
 
-    def test_creat_riderinfo(self):
+    def test_create_riderinfo(self):
         """Test create riders info"""
         payload = {"rider": {
                                 "last_name": "Drabik",

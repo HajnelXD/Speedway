@@ -20,7 +20,7 @@ class ModelYearsTests(TestCase):
 
 
 def sample_team(team_name='Testowa nazwa'):
-    """Create sample year"""
+    """Create sample team"""
     return Team.objects.create(team_name=team_name)
 
 

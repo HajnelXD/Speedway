@@ -9,7 +9,7 @@ from Riders.seralizers import RiderSerializer
 RIDERS_URL = reverse('riders')
 
 
-def sample_rider(team_name='Testowa nazwa'):
+def sample_rider():
     """Create sample rider"""
     return Rider.objects.create(last_name="Kowalski", first_name="Andrzej")
 

@@ -25,14 +25,22 @@ class ModelRiderInfoTest(TestCase):
             birthday='2020-12-12',
             nationality='Poland'
         )
-        rider_info = RiderInfo(id=None, team=sample_team, rider=sample_rider, year=sample_year,
-                               junior='N')
+        rider_info = RiderInfo(
+            id=None,
+            team=sample_team,
+            rider=sample_rider,
+            year=sample_year,
+            junior='N'
+        )
         rider_info.save()
-        self.assertEqual(str(rider_info), str(sample_rider) + " " + str(sample_year)
-                         + " " + str(sample_team))
+        self.assertEqual(
+            str(rider_info), str(sample_rider) + " " + str(sample_year) +
+            " " + str(sample_team)
+        )
 
 
-def sample_rider_info(team_name, year, last_name, first_name, birthday, nationality):
+def sample_rider_info(team_name, year, last_name, first_name, birthday,
+                      nationality):
     sample_team = Team.objects.create(
         team_name=team_name
     )
@@ -45,8 +53,13 @@ def sample_rider_info(team_name, year, last_name, first_name, birthday, national
         birthday=birthday,
         nationality=nationality
     )
-    rider_info = RiderInfo(id=None, team=sample_team, rider=sample_rider, year=sample_year,
-                           junior='N')
+    rider_info = RiderInfo(
+        id=None,
+        team=sample_team,
+        rider=sample_rider,
+        year=sample_year,
+        junior='N'
+    )
     rider_info.save()
 
 
@@ -58,7 +71,14 @@ class RiderInfoAPITest(TestCase):
 
     def test_retrieve_ridersinfo(self):
         """Test retrieving a list of riders info"""
-        sample_rider_info('AKS', 2008, 'Smith', 'Agent', '2000-12-12', 'Poland')
+        sample_rider_info(
+            'AKS',
+            2008,
+            'Smith',
+            'Agent',
+            '2000-12-12',
+            'Poland'
+        )
         res = self.client.get(RIDERSINFO_URL)
         rider_info = RiderInfo.objects.all().order_by('id')
         serializer = RiderInfoSerializer(rider_info, many=True)
@@ -67,19 +87,20 @@ class RiderInfoAPITest(TestCase):
 
     def test_create_riderinfo(self):
         """Test create riders info"""
-        payload = {"rider":
-            {
-                "last_name": "Drabik",
-                "first_name": "Maksym",
-                "birthday": "2000-12-12",
-                "nationality": "Poland"
-            },
+        payload = {
+            "rider":
+                {
+                    "last_name": "Drabik",
+                    "first_name": "Maksym",
+                    "birthday": "2000-12-12",
+                    "nationality": "Poland"
+                },
             "team": {
                 "team_name": "Sparta Wrocław"
-            },
+                },
             "year": {
                 "year": 2019
-            },
+                },
             "junior": 'N'
         }
         res = self.client.post(RIDERSINFO_URL, payload, format='json')
@@ -87,7 +108,14 @@ class RiderInfoAPITest(TestCase):
 
     def test_add_exist_rider_info(self):
         """Test of adding an existing team"""
-        sample_rider_info('AKS', 2008, 'Smith', 'Agent', '2000-12-12', 'Poland')
+        sample_rider_info(
+            'AKS',
+            2008,
+            'Smith',
+            'Agent',
+            '2000-12-12',
+            'Poland'
+        )
         payload = {
             "rider": {
                 "last_name": "Smith",

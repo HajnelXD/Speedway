@@ -67,7 +67,10 @@ class YearAPITests(TestCase):
         res = self.client.post(YEARS_URL, payload)
         self.assertRaises(ValidationError)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(res.data['non_field_errors'][0], "Rok nie może być późniejszy niż niż bieżący")
+        self.assertEqual(
+            res.data['non_field_errors'][0],
+            "Rok nie może być późniejszy niż niż bieżący"
+        )
 
     def test_add_earlier_year(self):
         """test of adding an earlier year than the minimum"""
@@ -75,4 +78,7 @@ class YearAPITests(TestCase):
         res = self.client.post(YEARS_URL, payload)
         self.assertRaises(ValidationError)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(res.data['non_field_errors'][0], "Rok nie może być wczęsniejszy niż 2007")
+        self.assertEqual(
+            res.data['non_field_errors'][0],
+            "Rok nie może być wczęsniejszy niż 2007"
+        )

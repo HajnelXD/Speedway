@@ -24,7 +24,10 @@ class RiderInfo(models.Model):
     rider = models.ForeignKey(Rider, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     year = models.ForeignKey(Year, on_delete=models.CASCADE)
-    junior = models.CharField(max_length=1, choices=JUNIOR_CHOICES, default='N')
+    junior = models.CharField(
+        max_length=1,
+        choices=JUNIOR_CHOICES, default='N'
+    )
 
     class Meta:
         unique_together = ('rider', 'year', 'team')

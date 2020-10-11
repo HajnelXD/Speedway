@@ -9,9 +9,13 @@ class YearSerializer(serializers.Serializer):
 
     def validate(self, value):
         if value['year'] <= 2006:
-            raise serializers.ValidationError("Rok nie może być wczęsniejszy niż 2007")
+            raise serializers.ValidationError(
+                "Rok nie może być wczęsniejszy niż 2007"
+            )
         elif value['year'] > int(datetime.datetime.now().year):
-            raise serializers.ValidationError("Rok nie może być późniejszy niż niż bieżący")
+            raise serializers.ValidationError(
+                "Rok nie może być późniejszy niż niż bieżący"
+            )
         return value
 
     class Meta:
@@ -52,7 +56,10 @@ class TeamInfoSerializer(serializers.Serializer):
         team_data = validated_data.pop('team_name')
         team_name, team = Team.objects.get_or_create(**team_data)
         try:
-            all_data = TeamInfo.objects.create(team_name=team_name, **validated_data)
+            all_data = TeamInfo.objects.create(
+                team_name=team_name,
+                **validated_data
+            )
         except IntegrityError:
             raise serializers.ValidationError("Ten klub jest już w bazie")
             return

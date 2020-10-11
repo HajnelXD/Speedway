@@ -1,6 +1,4 @@
-import datetime
 from django.test import TestCase
-from rest_framework.exceptions import ValidationError
 from Teams.models import Year, Team, TeamInfo
 from django.urls import reverse
 from rest_framework.test import APIClient
@@ -16,7 +14,7 @@ class TeamsInfoModelsTests(TestCase):
     def test_team_info_str(self):
         """Test year string representation"""
         sample_team = Team.objects.create(
-            team_name='testowa drużyna'
+            team_name='testowa drużyna',
         )
         sample_year = Year.objects.create(
             year=2009
@@ -65,7 +63,7 @@ class TeamsInfoAPITests(TestCase):
             "team_name": {
                 "team_name": "Testowa dtużyna"
             },
-                "years_in_ekstraliga": [
+            "years_in_ekstraliga": [
                 {
                     "year": 2010
                 },

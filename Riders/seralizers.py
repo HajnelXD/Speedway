@@ -33,7 +33,9 @@ class RiderInfoSerializer(serializers.Serializer):
         fields = ('rider', 'team', 'year', 'junior')
 
     def create(self, validated_data):
-        team = Team.objects.get_or_create(team_name=validated_data['team']['team_name'])
+        team = Team.objects.get_or_create(
+            team_name=validated_data['team']['team_name']
+        )
         rider = Rider.objects.get_or_create(
             last_name=validated_data['rider']['last_name'],
             first_name=validated_data['rider']['first_name'],
@@ -42,8 +44,12 @@ class RiderInfoSerializer(serializers.Serializer):
         )
         year = Year.objects.get_or_create(year=validated_data['year']['year'])
         try:
-            rider_info = RiderInfo.objects.create(rider=rider[0], team=team[0], year=year[0],
-                                                  junior=validated_data['junior'])
+            rider_info = RiderInfo.objects.create(
+                rider=rider[0],
+                team=team[0],
+                year=year[0],
+                junior=validated_data['junior']
+            )
             return rider_info
         except IntegrityError:
             raise serializers.ValidationError("Takie dane już są w bazie")

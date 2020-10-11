@@ -5,6 +5,8 @@ from Teams.models import Year, Team
 class Rider(models.Model):
     last_name = models.CharField(max_length=32)
     first_name = models.CharField(max_length=32)
+    birthday = models.DateField(default='1900-12-12')
+    nationality = models.CharField(max_length=32, default='Poland')
 
     class Meta:
         unique_together = ('last_name', 'first_name')

@@ -21,7 +21,9 @@ class ModelRiderInfoTest(TestCase):
         )
         sample_rider = Rider.objects.create(
             last_name='Kowalski',
-            first_name='Jan'
+            first_name='Jan',
+            birthday='2020-12-12',
+            nationality='Poland'
         )
         rider_info = RiderInfo(id=None, team=sample_team, rider=sample_rider, year=sample_year,
                                junior='N')
@@ -30,7 +32,7 @@ class ModelRiderInfoTest(TestCase):
                          + " " + str(sample_team))
 
 
-def sample_rider_info(team_name, year, last_name, first_name):
+def sample_rider_info(team_name, year, last_name, first_name, birthday, nationality):
     sample_team = Team.objects.create(
         team_name=team_name
     )
@@ -39,7 +41,9 @@ def sample_rider_info(team_name, year, last_name, first_name):
     )
     sample_rider = Rider.objects.create(
         last_name=last_name,
-        first_name=first_name
+        first_name=first_name,
+        birthday=birthday,
+        nationality=nationality
     )
     rider_info = RiderInfo(id=None, team=sample_team, rider=sample_rider, year=sample_year,
                            junior='N')
@@ -54,7 +58,7 @@ class RiderInfoAPITest(TestCase):
 
     def test_retrieve_ridersinfo(self):
         """Test retrieving a list of riders info"""
-        sample_rider_info('AKS', 2008, 'Smith', 'Agent')
+        sample_rider_info('AKS', 2008, 'Smith', 'Agent', '2000-12-12', 'Poland')
         res = self.client.get(RIDERSINFO_URL)
         rider_info = RiderInfo.objects.all().order_by('id')
         serializer = RiderInfoSerializer(rider_info, many=True)
@@ -63,35 +67,41 @@ class RiderInfoAPITest(TestCase):
 
     def test_create_riderinfo(self):
         """Test create riders info"""
-        payload = {"rider": {
-                                "last_name": "Drabik",
-                                "first_name": "Maksym"
-                            },
-                    "team": {
-                                "team_name": "Sparta Wrocław"
-                            },
-                    "year": {
-                                "year": 2019
-                            },
-                    "junior": 'N'
+        payload = {"rider":
+            {
+                "last_name": "Drabik",
+                "first_name": "Maksym",
+                "birthday": "2000-12-12",
+                "nationality": "Poland"
+            },
+            "team": {
+                "team_name": "Sparta Wrocław"
+            },
+            "year": {
+                "year": 2019
+            },
+            "junior": 'N'
         }
         res = self.client.post(RIDERSINFO_URL, payload, format='json')
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
     def test_add_exist_rider_info(self):
         """Test of adding an existing team"""
-        sample_rider_info('AKS', 2008, 'Smith', 'Agent')
-        payload = {"rider": {
-                                "last_name": "Smith",
-                                "first_name": "Agent"
-                            },
-                    "team": {
-                                "team_name": "AKS"
-                            },
-                    "year": {
-                                "year": 2008
-                             },
-                    "junior": "N"
+        sample_rider_info('AKS', 2008, 'Smith', 'Agent', '2000-12-12', 'Poland')
+        payload = {
+            "rider": {
+                "last_name": "Smith",
+                "first_name": "Agent",
+                "birthday": "2000-12-12",
+                "nationality": "Poland"
+            },
+            "team": {
+                "team_name": "AKS"
+            },
+            "year": {
+                "year": 2008
+            },
+            "junior": "N"
         }
         res = self.client.post(RIDERSINFO_URL, payload, format='json')
         self.assertRaises(IntegrityError)

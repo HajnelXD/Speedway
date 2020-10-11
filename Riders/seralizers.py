@@ -8,10 +8,12 @@ from Teams.models import Team, Year
 class RiderSerializer(serializers.Serializer):
     last_name = serializers.CharField()
     first_name = serializers.CharField()
+    birthday = serializers.DateField()
+    nationality = serializers.CharField()
 
     class Meta:
         model = Rider
-        fields = ('last_name', 'first_name')
+        fields = ('last_name', 'first_name', 'birthday', 'nationality')
 
     def create(self, validated_data):
         try:
@@ -32,8 +34,12 @@ class RiderInfoSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         team = Team.objects.get_or_create(team_name=validated_data['team']['team_name'])
-        rider = Rider.objects.get_or_create(last_name=validated_data['rider']['last_name'],
-                                            first_name=validated_data['rider']['first_name'])
+        rider = Rider.objects.get_or_create(
+            last_name=validated_data['rider']['last_name'],
+            first_name=validated_data['rider']['first_name'],
+            birthday=validated_data['rider']['birthday'],
+            nationality=validated_data['rider']['nationality']
+        )
         year = Year.objects.get_or_create(year=validated_data['year']['year'])
         try:
             rider_info = RiderInfo.objects.create(rider=rider[0], team=team[0], year=year[0],
@@ -41,4 +47,3 @@ class RiderInfoSerializer(serializers.Serializer):
             return rider_info
         except IntegrityError:
             raise serializers.ValidationError("Takie dane już są w bazie")
-

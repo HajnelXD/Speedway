@@ -35,6 +35,7 @@ class RiderInfoSerializer(serializers.Serializer):
     def create(self, validated_data):
         team = Team.objects.get_or_create(
             team_name=validated_data['team']['team_name']
+
         )
         rider = Rider.objects.get_or_create(
             last_name=validated_data['rider']['last_name'],

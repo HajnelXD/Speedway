@@ -34,7 +34,7 @@ class TeamSerializer(serializers.Serializer):
 
     class Meta:
         model = Team
-        fields = ('team_name', )
+        fields = ('team_name', 'stadium')
 
     def create(self, validated_data):
         try:
@@ -62,7 +62,6 @@ class TeamInfoSerializer(serializers.Serializer):
             )
         except IntegrityError:
             raise serializers.ValidationError("Ten klub jest już w bazie")
-            return
         for year_data in years_data:
             year_in_ekstraliga, year = Year.objects.get_or_create(**year_data)
             all_data.years_in_ekstraliga.add(year_in_ekstraliga)

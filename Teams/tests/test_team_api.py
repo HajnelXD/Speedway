@@ -14,14 +14,14 @@ class ModelYearsTests(TestCase):
     def test_team_str(self):
         """Test year string representation"""
         sample_team = Team.objects.create(
-            team_name="Testowa nazwa"
+            team_name="Testowa nazwa",
         )
         self.assertEqual(str(sample_team), sample_team.team_name)
 
 
-def sample_team(team_name='Testowa nazwa'):
+def sample_team(team_name='Testowa nazwa', stadium='stadium'):
     """Create sample team"""
-    return Team.objects.create(team_name=team_name)
+    return Team.objects.create(team_name=team_name, stadium=stadium)
 
 
 class TeamAPITests(TestCase):
@@ -41,7 +41,9 @@ class TeamAPITests(TestCase):
 
     def test_create_team(self):
         """Test creating team"""
-        payload = {'team_name': 'Testowa drużyna'}
+        payload = {
+            'team_name': 'Testowa drużyna',
+        }
         res = self.client.post(TEAMS_URL, payload)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         team = Team.objects.get(team_name=res.data['team_name'])

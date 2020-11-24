@@ -13,20 +13,23 @@ def sample_rider():
     return Rider.objects.create(last_name="Kowalski", first_name="Andrzej")
 
 
-def sample_team(team_name):
+def sample_team(team_name, stadium):
     """Create sample team"""
-    return Team.objects.create(team_name=team_name)
+    return Team.objects.create(team_name=team_name, stadium=stadium)
 
 
 def sample_match():
-    team1 = sample_team('Team1')
-    team2 = sample_team('Team2')
+    team1 = sample_team('Team1', 'stadium1')
+    team2 = sample_team('Team2', 'stadium2')
     return Match.objects.create(
         home_team=team1,
         home_team_points=55,
         guest_team=team2,
         guest_team_points=35,
         date='2009-10-03',
+        isFinished=True,
+        queue=1,
+        playoff=True,
     )
 
 
@@ -47,6 +50,8 @@ class ModelMatchPointsTest(TestCase):
             fifth_run='2',
             sixth_run='-',
             seventh_run='-',
+            joker_rider=0,
+            runs=[1, 2, 3, 4, 5]
         )
         self.assertEqual(str(match_points), str(match_points.match.date)
                          + ' ' + str(match_points.rider.last_name))

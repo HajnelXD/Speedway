@@ -6,6 +6,7 @@ from Riders.seralizers import RiderSerializer
 
 
 class MatchSetializer(serializers.Serializer):
+    id = serializers.ReadOnlyField()
     home_team = TeamSerializer(many=False)
     home_team_points = serializers.IntegerField()
     guest_team = TeamSerializer(many=False)
@@ -18,6 +19,7 @@ class MatchSetializer(serializers.Serializer):
     class Meta:
         model = Match
         fields = (
+            'id'
             'home_team',
             'home_team_points',
             'guest_team',

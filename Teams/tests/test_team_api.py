@@ -43,6 +43,7 @@ class TeamAPITests(TestCase):
         """Test creating team"""
         payload = {
             'team_name': 'Testowa drużyna',
+            'stadium': 'Test',
         }
         res = self.client.post(TEAMS_URL, payload)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
@@ -53,7 +54,10 @@ class TeamAPITests(TestCase):
     def test_add_exist_team(self):
         """Test of adding an existing team"""
         sample_team()
-        payload = {'team_name': 'Testowa nazwa'}
+        payload = {
+            'team_name': 'Testowa nazwa',
+            'stadium': 'Test',
+        }
         res = self.client.post(TEAMS_URL, payload)
         self.assertRaises(IntegrityError)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)

@@ -30,11 +30,13 @@ class YearSerializer(serializers.Serializer):
 
 
 class TeamSerializer(serializers.Serializer):
+    id = serializers.ReadOnlyField()
     team_name = serializers.CharField()
+    stadium = serializers.CharField()
 
     class Meta:
         model = Team
-        fields = ('team_name', 'stadium')
+        fields = ('id', 'team_name', 'stadium')
 
     def create(self, validated_data):
         try:

@@ -96,7 +96,8 @@ class RiderInfoAPITest(TestCase):
                     "nationality": "Poland"
                 },
             "team": {
-                "team_name": "Sparta Wrocław"
+                "team_name": "Sparta Wrocław",
+                "stadium": "Testowy",
                 },
             "year": {
                 "year": 2019
@@ -124,7 +125,8 @@ class RiderInfoAPITest(TestCase):
                 "nationality": "Poland"
             },
             "team": {
-                "team_name": "AKS"
+                "team_name": "AKS",
+                "stadium": "Testowy",
             },
             "year": {
                 "year": 2008

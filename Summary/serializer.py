@@ -1,11 +1,11 @@
 from Summary.models import SummaryTable
 from rest_framework import serializers
 
-from Teams.serializers import YearSerializer
+from Teams.serializers import YearSerializer, TeamSerializer
 
 
 class SummaryTableSerializer(serializers.Serializer):
-    name = serializers.CharField()
+    name = TeamSerializer(many=False)
     matches = serializers.IntegerField()
     points = serializers.IntegerField()
     bonus = serializers.IntegerField()

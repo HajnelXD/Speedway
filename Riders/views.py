@@ -33,3 +33,13 @@ class RiderInfoView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TeamRidersList(APIView):
+    def get(self, request, year, team_id, format=None):
+        riders_list = RiderInfo.objects.filter(
+            year__year=year,
+            team_id=team_id,
+        )
+        serializer = RiderInfoSerializer(riders_list, many=True)
+        return Response(serializer.data)

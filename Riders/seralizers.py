@@ -23,6 +23,7 @@ class RiderSerializer(serializers.Serializer):
 
 
 class RiderInfoSerializer(serializers.Serializer):
+    id = serializers.ReadOnlyField()
     rider = RiderSerializer(many=False)
     team = TeamSerializer(many=False)
     year = YearSerializer(many=False)
@@ -30,7 +31,7 @@ class RiderInfoSerializer(serializers.Serializer):
 
     class Meta:
         model = RiderInfo
-        fields = ('rider', 'team', 'year', 'junior')
+        fields = ('id', 'rider', 'team', 'year', 'junior')
 
     def create(self, validated_data):
         team = Team.objects.get_or_create(

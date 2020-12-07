@@ -11,13 +11,19 @@ class Match(models.Model):
         on_delete=models.CASCADE,
         related_name='home_team'
     )
-    home_team_points = models.IntegerField()
+    home_team_points = models.IntegerField(
+        blank=True,
+        null=True,
+    )
     guest_team = models.ForeignKey(
         Team,
         on_delete=models.CASCADE,
         related_name='guest_team'
     )
-    guest_team_points = models.IntegerField()
+    guest_team_points = models.IntegerField(
+        blank=True,
+        null=True,
+    )
     date = models.DateField()
     isFinished = models.BooleanField()
     queue = models.IntegerField()

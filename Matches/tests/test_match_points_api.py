@@ -40,6 +40,7 @@ class ModelMatchPointsTest(TestCase):
 
         match = sample_match()
         rider = sample_rider()
+        team = sample_team('Team3', 'stadium3')
         match_points = MatchPoints.objects.create(
             rider=rider,
             match=match,
@@ -48,10 +49,13 @@ class ModelMatchPointsTest(TestCase):
             third_run='2',
             fourth_run='3',
             fifth_run='2',
-            sixth_run='-',
-            seventh_run='-',
+            sixth_run='',
+            seventh_run='',
             joker_rider=0,
-            runs=[1, 2, 3, 4, 5]
+            runs=[1, 2, 3, 4, 5],
+            bonuses=0,
+            team=team,
+            number=3
         )
         self.assertEqual(str(match_points), str(match_points.match.date)
                          + ' ' + str(match_points.rider.last_name))

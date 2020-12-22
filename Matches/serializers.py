@@ -34,15 +34,18 @@ class MatchSetializer(serializers.Serializer):
 class MatchPointsSerializer(serializers.Serializer):
     rider = RiderSerializer(many=False)
     match = MatchSetializer(many=False)
-    first_run = serializers.IntegerField()
-    second_run = serializers.IntegerField()
-    third_run = serializers.IntegerField()
-    fourth_run = serializers.IntegerField()
-    fifth_run = serializers.IntegerField()
-    sixth_run = serializers.IntegerField()
-    seventh_run = serializers.IntegerField()
+    first_run = serializers.CharField()
+    second_run = serializers.CharField()
+    third_run = serializers.CharField()
+    fourth_run = serializers.CharField()
+    fifth_run = serializers.CharField()
+    sixth_run = serializers.CharField()
+    seventh_run = serializers.CharField()
     joker_rider = serializers.IntegerField()
     runs = serializers.CharField()
+    bonuses = serializers.IntegerField()
+    team = TeamSerializer(many=False)
+    number = serializers.IntegerField()
 
     class Meta:
         model = MatchPoints
@@ -58,4 +61,7 @@ class MatchPointsSerializer(serializers.Serializer):
             'seventh_run',
             'joker_rider',
             'runs',
+            'bonuses',
+            'team',
+            'number'
         )

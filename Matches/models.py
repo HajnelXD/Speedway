@@ -4,6 +4,9 @@ from django.db import models
 from Teams.models import Team
 from Riders.models import Rider
 
+RUNS = ['first_run', 'second_run', 'third_run', 'fourth_run', 'fifth_run',
+        'sixth_run', 'seventh_run']
+
 
 class Match(models.Model):
     home_team = models.ForeignKey(
@@ -60,6 +63,18 @@ class MatchPoints(models.Model):
 
     def get_runs_with_bonus(self):
         return json.loads(self.runs_with_bonus)
+
+    def sum_points(self, sum, runs):
+        val = 0
+        for run in RUNS:
+            try:
+                val = int(self.__getattribute__(run).replace('\'', ''))
+                runs += 1
+            except ValueError:
+                val = 0
+            finally:
+                sum += val
+        return [sum, runs]
 
     class Meta:
         unique_together = ('rider', 'match')

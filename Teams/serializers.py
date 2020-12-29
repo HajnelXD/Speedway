@@ -1,7 +1,9 @@
-from Teams.models import Year, Team, TeamInfo
 import datetime
+
 from rest_framework import serializers
 from django.db import IntegrityError
+
+from Teams.models import Year, Team, TeamInfo
 
 
 class YearSerializer(serializers.Serializer):

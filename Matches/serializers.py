@@ -65,3 +65,19 @@ class MatchPointsSerializer(serializers.Serializer):
             'team',
             'number'
         )
+
+
+class TeamRidersPointsSerializer(serializers.Serializer):
+    rider = RiderSerializer(many=False)
+    points_sum = serializers.IntegerField()
+    bonuses = serializers.IntegerField()
+    matches = serializers.IntegerField()
+    match_average = serializers.FloatField()
+    runs = serializers.IntegerField()
+    runs_average = serializers.FloatField()
+
+    class Meta:
+        fields = (
+            'rider', 'points_sum', 'bonuses', 'matches', 'match_average',
+            'runs', 'runs_average',
+        )

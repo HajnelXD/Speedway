@@ -16,4 +16,9 @@ urlpatterns = [
         views.MatchPointsView.as_view(),
         name='match_points'
     ),
+    path(
+        'team_riders_points/<team_id>/<yyyy:year>',
+        views.TeamRidersPoints.as_view(),
+        name='team_riders_points'
+    )
 ]

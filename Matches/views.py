@@ -1,5 +1,6 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from operator import itemgetter
 
 from Matches.models import Match, MatchPoints
 from Matches.serializers import (
@@ -89,5 +90,7 @@ class TeamRidersPoints(APIView):
                     riders_points_obj['runs_average'] = 0
                 riders.append(riders_points_obj)
             exist = 0
+        riders = sorted(riders, key=itemgetter('runs_average'))
+        riders.reverse()
         serializer = TeamRidersPointsSerializer(riders, many=True)
         return Response(serializer.data)

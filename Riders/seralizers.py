@@ -6,6 +6,7 @@ from Teams.models import Team, Year
 
 
 class RiderSerializer(serializers.Serializer):
+    id = serializers.ReadOnlyField()
     last_name = serializers.CharField()
     first_name = serializers.CharField()
     birthday = serializers.DateField()
@@ -13,7 +14,7 @@ class RiderSerializer(serializers.Serializer):
 
     class Meta:
         model = Rider
-        fields = ('last_name', 'first_name', 'birthday', 'nationality')
+        fields = ('id', 'last_name', 'first_name', 'birthday', 'nationality')
 
     def create(self, validated_data):
         try:

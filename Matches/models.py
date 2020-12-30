@@ -53,28 +53,17 @@ class MatchPoints(models.Model):
     sixth_run = models.CharField(max_length=2, null=True, blank=True)
     seventh_run = models.CharField(max_length=2, null=True, blank=True)
     joker_rider = models.IntegerField()
-    runs = models.CharField(max_length=30)
+    runs = models.IntegerField()
     bonuses = models.IntegerField()
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     number = models.IntegerField()
+    points = models.IntegerField()
 
     def set_runs_with_bonus(self, runs):
         self.runs_with_bonus = json.dumps(runs)
 
     def get_runs_with_bonus(self):
         return json.loads(self.runs_with_bonus)
-
-    def sum_points(self, sum, runs):
-        val = 0
-        for run in RUNS:
-            try:
-                val = int(self.__getattribute__(run).replace('\'', ''))
-                runs += 1
-            except ValueError:
-                val = 0
-            finally:
-                sum += val
-        return [sum, runs]
 
     class Meta:
         unique_together = ('rider', 'match')

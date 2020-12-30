@@ -42,10 +42,12 @@ class MatchPointsSerializer(serializers.Serializer):
     sixth_run = serializers.CharField()
     seventh_run = serializers.CharField()
     joker_rider = serializers.IntegerField()
-    runs = serializers.CharField()
+    runs = serializers.IntegerField()
     bonuses = serializers.IntegerField()
     team = TeamSerializer(many=False)
     number = serializers.IntegerField()
+    points = serializers.IntegerField()
+
 
     class Meta:
         model = MatchPoints
@@ -63,7 +65,8 @@ class MatchPointsSerializer(serializers.Serializer):
             'runs',
             'bonuses',
             'team',
-            'number'
+            'number',
+            'points',
         )
 
 

@@ -41,14 +41,10 @@ class TeamRidersPoints(APIView):
             for rider in riders:
                 if rider['rider'] == rider_obj.rider:
                     exist = 1
-                    temp = rider_obj.sum_points(
-                        rider['points_sum'],
-                        rider['runs'],
-                    )
-                    rider['points_sum'] = temp[0]
+                    rider['points_sum'] += rider_obj.points
                     rider['bonuses'] += rider_obj.bonuses
                     rider['matches'] += 1
-                    rider['runs'] = temp[1]
+                    rider['runs'] += rider_obj.runs
                     try:
                         rider['match_average'] = round(
                             rider['points_sum'] / rider['matches'],
@@ -65,11 +61,10 @@ class TeamRidersPoints(APIView):
                     except ZeroDivisionError:
                         rider['runs_average'] = 0
             if exist == 0:
-                temp = rider_obj.sum_points(0, 0)
                 riders_points_obj = {
                     'rider': rider_obj.rider,
-                    'points_sum': temp[0],
-                    'runs': temp[1],
+                    'points_sum': rider_obj.points,
+                    'runs': rider_obj.runs,
                     'bonuses': rider_obj.bonuses,
                     'matches': 1,
                 }
@@ -124,12 +119,8 @@ class RiderStatsVs(APIView):
                 rider_id=rider_stats['id'],
             )
             for statistic in stats:
-                temp = statistic.sum_points(
-                    rider_stats['points_sum'],
-                    rider_stats['runs'],
-                )
                 rider_stats['matches'] += 1
-                rider_stats['points_sum'] = temp[0]
+                rider_stats['points_sum'] = statistic.points
                 rider_stats['bonuses'] += statistic.bonuses
                 try:
                     rider_stats['match_average'] = round(
@@ -139,7 +130,7 @@ class RiderStatsVs(APIView):
                     )
                 except ZeroDivisionError:
                     rider_stats['match_average'] = 0
-                rider_stats['runs'] = temp[1]
+                rider_stats['runs'] = statistic.runs
                 try:
                     rider_stats['runs_average'] = round(
                         rider_stats['points_sum'] /
@@ -152,4 +143,15 @@ class RiderStatsVs(APIView):
         riders = sorted(finally_stats, key=itemgetter('runs_average'))
         riders.reverse()
         serializer = TeamRidersPointsSerializer(riders, many=True)
+        return Response(serializer.data)
+
+
+class RiderMatchPoints:
+    """List of rider match points"""
+
+    def get(self, request, rider_id):
+        matches = MatchPoints.objects.filter(
+            rider_id=rider_id
+        )
+        serializer = MatchPointsSerializer(matches, many=True)
         return Response(serializer.data)

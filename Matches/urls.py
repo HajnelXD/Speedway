@@ -25,5 +25,10 @@ urlpatterns = [
         'rider_stas_vs/<home_team_id>/<team_id>/<yyyy:year>',
         views.RiderStatsVs.as_view(),
         name='rider_stats_vs',
+    ),
+    path(
+        'match_points/<rider_id>',
+        views.RiderMatchPoints,
+        name='rider match points'
     )
 ]

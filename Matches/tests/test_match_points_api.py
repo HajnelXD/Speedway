@@ -52,10 +52,11 @@ class ModelMatchPointsTest(TestCase):
             sixth_run='',
             seventh_run='',
             joker_rider=0,
-            runs=[1, 2, 3, 4, 5],
+            runs=5,
             bonuses=0,
             team=team,
-            number=3
+            number=3,
+            points=8
         )
         self.assertEqual(str(match_points), str(match_points.match.date)
                          + ' ' + str(match_points.rider.last_name))

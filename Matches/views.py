@@ -146,10 +146,10 @@ class RiderStatsVs(APIView):
         return Response(serializer.data)
 
 
-class RiderMatchPoints:
+class RiderMatchPoints(APIView):
     """List of rider match points"""
 
-    def get(self, request, rider_id):
+    def get(self, request, rider_id, format=None):
         matches = MatchPoints.objects.filter(
             rider_id=rider_id
         )

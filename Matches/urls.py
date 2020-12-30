@@ -27,8 +27,8 @@ urlpatterns = [
         name='rider_stats_vs',
     ),
     path(
-        'match_points/<rider_id>',
-        views.RiderMatchPoints,
+        'rider_match_points/<rider_id>',
+        views.RiderMatchPoints.as_view(),
         name='rider match points'
     )
 ]

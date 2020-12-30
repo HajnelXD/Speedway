@@ -6,6 +6,7 @@ from Matches.models import Match, MatchPoints
 from Matches.serializers import (
     MatchSetializer, MatchPointsSerializer, TeamRidersPointsSerializer
 )
+from Riders.models import RiderInfo
 
 
 class SeasonMatchesView(APIView):
@@ -91,6 +92,64 @@ class TeamRidersPoints(APIView):
                 riders.append(riders_points_obj)
             exist = 0
         riders = sorted(riders, key=itemgetter('runs_average'))
+        riders.reverse()
+        serializer = TeamRidersPointsSerializer(riders, many=True)
+        return Response(serializer.data)
+
+
+class RiderStatsVs(APIView):
+    """Riders stats on stadium"""
+
+    def get(self, request, home_team_id, team_id, year, format=None):
+        riders_in_team = RiderInfo.objects.filter(
+            team_id=team_id,
+            year__year=year,
+        )
+        riders_stats = []
+        for rider in riders_in_team:
+            riders_stats.append({
+                'id': rider.rider_id,
+                'rider': rider.rider,
+                'matches': 0,
+                'points_sum': 0,
+                'bonuses': 0,
+                'match_average': 0,
+                'runs': 0,
+                'runs_average': 0,
+            })
+        finally_stats = []
+        for rider_stats in riders_stats:
+            stats = MatchPoints.objects.filter(
+                match__home_team_id=home_team_id,
+                rider_id=rider_stats['id'],
+            )
+            for statistic in stats:
+                temp = statistic.sum_points(
+                    rider_stats['points_sum'],
+                    rider_stats['runs'],
+                )
+                rider_stats['matches'] += 1
+                rider_stats['points_sum'] = temp[0]
+                rider_stats['bonuses'] += statistic.bonuses
+                try:
+                    rider_stats['match_average'] = round(
+                        rider_stats['points_sum'] /
+                        rider_stats['matches'],
+                        2
+                    )
+                except ZeroDivisionError:
+                    rider_stats['match_average'] = 0
+                rider_stats['runs'] = temp[1]
+                try:
+                    rider_stats['runs_average'] = round(
+                        rider_stats['points_sum'] /
+                        rider_stats['runs'],
+                        2
+                    )
+                except ZeroDivisionError:
+                    rider_stats['runs_average'] = 0
+            finally_stats.append(rider_stats)
+        riders = sorted(finally_stats, key=itemgetter('runs_average'))
         riders.reverse()
         serializer = TeamRidersPointsSerializer(riders, many=True)
         return Response(serializer.data)

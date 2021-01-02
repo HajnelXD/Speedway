@@ -48,7 +48,6 @@ class MatchPointsSerializer(serializers.Serializer):
     number = serializers.IntegerField()
     points = serializers.IntegerField()
 
-
     class Meta:
         model = MatchPoints
         fields = (
@@ -84,3 +83,84 @@ class TeamRidersPointsSerializer(serializers.Serializer):
             'rider', 'points_sum', 'bonuses', 'matches', 'match_average',
             'runs', 'runs_average',
         )
+
+
+class RiderStatsSerializer(serializers.Serializer):
+    first_run = serializers.IntegerField()
+    second_run = serializers.IntegerField()
+    third_run = serializers.IntegerField()
+    fourth_run = serializers.IntegerField()
+    fifth_run = serializers.IntegerField()
+    sixth_run = serializers.IntegerField()
+    seventh_run = serializers.IntegerField()
+    defects = serializers.IntegerField()
+    exclusions = serializers.IntegerField()
+    tape = serializers.IntegerField()
+    fall = serializers.IntegerField()
+    change = serializers.IntegerField()
+    timeout = serializers.IntegerField()
+    points_in_first_run = serializers.IntegerField()
+    points_in_second_run = serializers.IntegerField()
+    points_in_third_run = serializers.IntegerField()
+    points_in_fourth_run = serializers.IntegerField()
+    points_in_fifth_run = serializers.IntegerField()
+    points_in_sixth_run = serializers.IntegerField()
+    points_in_seventh_run = serializers.IntegerField()
+    first_places = serializers.IntegerField()
+    second_places = serializers.IntegerField()
+    third_places = serializers.IntegerField()
+    fourth_places = serializers.IntegerField()
+    other_events = serializers.IntegerField()
+    first_place_in_first_run = serializers.IntegerField()
+    second_place_in_first_run = serializers.IntegerField()
+    third_place_in_first_run = serializers.IntegerField()
+    fourth_place_in_first_run = serializers.IntegerField()
+    first_place_in_second_run = serializers.IntegerField()
+    second_place_in_second_run = serializers.IntegerField()
+    third_place_in_second_run = serializers.IntegerField()
+    fourth_place_in_second_run = serializers.IntegerField()
+    first_place_in_third_run = serializers.IntegerField()
+    second_place_in_third_run = serializers.IntegerField()
+    third_place_in_third_run = serializers.IntegerField()
+    fourth_place_in_third_run = serializers.IntegerField()
+    first_place_in_fourth_run = serializers.IntegerField()
+    second_place_in_fourth_run = serializers.IntegerField()
+    third_place_in_fourth_run = serializers.IntegerField()
+    fourth_place_in_fourth_run = serializers.IntegerField()
+    first_place_in_fifth_run = serializers.IntegerField()
+    second_place_in_fifth_run = serializers.IntegerField()
+    third_place_in_fifth_run = serializers.IntegerField()
+    fourth_place_in_fifth_run = serializers.IntegerField()
+    first_place_in_sixth_run = serializers.IntegerField()
+    second_place_in_sixth_run = serializers.IntegerField()
+    third_place_in_sixth_run = serializers.IntegerField()
+    fourth_place_in_sixth_run = serializers.IntegerField()
+    first_place_in_seventh_run = serializers.IntegerField()
+    second_place_in_seventh_run = serializers.IntegerField()
+    third_place_in_seventh_run = serializers.IntegerField()
+    fourth_place_in_seventh_run = serializers.IntegerField()
+
+    class Meta:
+        fields = ('first_run', 'second_run', 'third_run', 'fourth_run',
+                  'fifth_run', 'sixth_run', 'seventh_run', 'defects',
+                  'exclusions', 'tape', 'fall', 'change', 'timeout',
+                  'points_in_first_run', 'points_in_second_run',
+                  'points_in_third_run', 'points_in_fourth_run',
+                  'points_in_fifth_run', 'points_in_sixth_run',
+                  'points_in_seventh_run', 'first_places', 'second_places',
+                  'third_places', 'fourth_places', 'other_events',
+                  'first_place_in_first_run', 'second_place_in_first_run',
+                  'third_place_in_first_run', 'fourth_place_in_first_run',
+                  'first_place_in_second_run', 'second_place_in_second_run',
+                  'third_place_in_second_run', 'fourth_place_in_second_run',
+                  'first_place_in_third_run', 'second_place_in_third_run',
+                  'third_place_in_third_run', 'fourth_place_in_third_run',
+                  'first_place_in_fourth_run', 'second_place_in_fourth_run',
+                  'third_place_in_fourth_run', 'fourth_place_in_fourth_run',
+                  'first_place_in_fifth_run', 'second_place_in_fifth_run',
+                  'third_place_in_fifth_run', 'fourth_place_in_fifth_run',
+                  'first_place_in_sixth_run', 'second_place_in_sixth_run',
+                  'third_place_in_sixth_run', 'fourth_place_in_sixth_run',
+                  'first_place_in_seventh_run', 'second_place_in_seventh_run',
+                  'third_place_in_seventh_run', 'fourth_place_in_seventh_run',
+                  )

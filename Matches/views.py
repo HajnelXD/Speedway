@@ -4,7 +4,8 @@ from operator import itemgetter
 
 from Matches.models import Match, MatchPoints
 from Matches.serializers import (
-    MatchSetializer, MatchPointsSerializer, TeamRidersPointsSerializer
+    MatchSetializer, MatchPointsSerializer, TeamRidersPointsSerializer,
+    RiderStatsSerializer
 )
 from Riders.models import RiderInfo
 
@@ -154,4 +155,174 @@ class RiderMatchPoints(APIView):
             rider_id=rider_id
         )
         serializer = MatchPointsSerializer(matches, many=True)
+        return Response(serializer.data)
+
+
+class RiderStats(APIView):
+    """Rider stats details"""
+
+    def get(self, request, rider_id, format=None):
+        matches = MatchPoints.objects.filter(
+            rider_id=rider_id
+        )
+        runs = {
+            'first_run': 0,
+            'second_run': 0,
+            'third_run': 0,
+            'fourth_run': 0,
+            'fifth_run': 0,
+            'sixth_run': 0,
+            'seventh_run': 0,
+            'defects': 0,
+            'exclusions': 0,
+            'tape': 0,
+            'fall': 0,
+            'change': 0,
+            'timeout': 0,
+        }
+
+        points_in_run = {
+            'points_in_first_run': 0,
+            'points_in_second_run': 0,
+            'points_in_third_run': 0,
+            'points_in_fourth_run': 0,
+            'points_in_fifth_run': 0,
+            'points_in_sixth_run': 0,
+            'points_in_seventh_run': 0,
+        }
+        places = {
+            'first_places': 0,
+            'second_places': 0,
+            'third_places': 0,
+            'fourth_places': 0,
+            'other_events': 0,
+        }
+        places_in_run = {
+            'first_place_in_first_run': 0,
+            'second_place_in_first_run': 0,
+            'third_place_in_first_run': 0,
+            'fourth_place_in_first_run': 0,
+            'first_place_in_second_run': 0,
+            'second_place_in_second_run': 0,
+            'third_place_in_second_run': 0,
+            'fourth_place_in_second_run': 0,
+            'first_place_in_third_run': 0,
+            'second_place_in_third_run': 0,
+            'third_place_in_third_run': 0,
+            'fourth_place_in_third_run': 0,
+            'first_place_in_fourth_run': 0,
+            'second_place_in_fourth_run': 0,
+            'third_place_in_fourth_run': 0,
+            'fourth_place_in_fourth_run': 0,
+            'first_place_in_fifth_run': 0,
+            'second_place_in_fifth_run': 0,
+            'third_place_in_fifth_run': 0,
+            'fourth_place_in_fifth_run': 0,
+            'first_place_in_sixth_run': 0,
+            'second_place_in_sixth_run': 0,
+            'third_place_in_sixth_run': 0,
+            'fourth_place_in_sixth_run': 0,
+            'first_place_in_seventh_run': 0,
+            'second_place_in_seventh_run': 0,
+            'third_place_in_seventh_run': 0,
+            'fourth_place_in_seventh_run': 0,
+        }
+
+        for match in matches:
+            runs = match.count_runs(runs)
+            points_in_run = match.count_points_in_runs(points_in_run)
+            places = match.count_places(places)
+            places_in_run = match.count_places_in_runs(places_in_run)
+
+        data = runs
+        data.update(points_in_run)
+        data.update(places)
+        data.update(places_in_run)
+        serializer = RiderStatsSerializer(data, many=False)
+        return Response(serializer.data)
+
+
+class RiderStatsInYear(APIView):
+    """Rider stats details in year"""
+
+    def get(self, request, rider_id, year, format=None):
+        matches = MatchPoints.objects.filter(
+            rider_id=rider_id,
+            match__date__year=year,
+        )
+
+        runs = {
+            'first_run': 0,
+            'second_run': 0,
+            'third_run': 0,
+            'fourth_run': 0,
+            'fifth_run': 0,
+            'sixth_run': 0,
+            'seventh_run': 0,
+            'defects': 0,
+            'exclusions': 0,
+            'tape': 0,
+            'fall': 0,
+            'change': 0,
+            'timeout': 0,
+        }
+
+        points_in_run = {
+            'points_in_first_run': 0,
+            'points_in_second_run': 0,
+            'points_in_third_run': 0,
+            'points_in_fourth_run': 0,
+            'points_in_fifth_run': 0,
+            'points_in_sixth_run': 0,
+            'points_in_seventh_run': 0,
+        }
+        places = {
+            'first_places': 0,
+            'second_places': 0,
+            'third_places': 0,
+            'fourth_places': 0,
+            'other_events': 0,
+        }
+        places_in_run = {
+            'first_place_in_first_run': 0,
+            'second_place_in_first_run': 0,
+            'third_place_in_first_run': 0,
+            'fourth_place_in_first_run': 0,
+            'first_place_in_second_run': 0,
+            'second_place_in_second_run': 0,
+            'third_place_in_second_run': 0,
+            'fourth_place_in_second_run': 0,
+            'first_place_in_third_run': 0,
+            'second_place_in_third_run': 0,
+            'third_place_in_third_run': 0,
+            'fourth_place_in_third_run': 0,
+            'first_place_in_fourth_run': 0,
+            'second_place_in_fourth_run': 0,
+            'third_place_in_fourth_run': 0,
+            'fourth_place_in_fourth_run': 0,
+            'first_place_in_fifth_run': 0,
+            'second_place_in_fifth_run': 0,
+            'third_place_in_fifth_run': 0,
+            'fourth_place_in_fifth_run': 0,
+            'first_place_in_sixth_run': 0,
+            'second_place_in_sixth_run': 0,
+            'third_place_in_sixth_run': 0,
+            'fourth_place_in_sixth_run': 0,
+            'first_place_in_seventh_run': 0,
+            'second_place_in_seventh_run': 0,
+            'third_place_in_seventh_run': 0,
+            'fourth_place_in_seventh_run': 0,
+        }
+
+        for match in matches:
+            runs = match.count_runs(runs)
+            points_in_run = match.count_points_in_runs(points_in_run)
+            places = match.count_places(places)
+            places_in_run = match.count_places_in_runs(places_in_run)
+
+        data = runs
+        data.update(points_in_run)
+        data.update(places)
+        data.update(places_in_run)
+        serializer = RiderStatsSerializer(data, many=False)
         return Response(serializer.data)

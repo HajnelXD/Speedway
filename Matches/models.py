@@ -4,9 +4,14 @@ from django.db import models
 from Teams.models import Team
 from Riders.models import Rider
 
-RUNS = ['first_run', 'second_run', 'third_run', 'fourth_run', 'fifth_run',
-        'sixth_run', 'seventh_run']
+RUNS = [
+    'first', 'second', 'third', 'fourth', 'fifth',
+    'sixth', 'seventh'
+]
 
+PLACES = [
+    'first_places', 'second_places', 'third_places', 'fourth_places'
+]
 
 class Match(models.Model):
     home_team = models.ForeignKey(
@@ -64,6 +69,80 @@ class MatchPoints(models.Model):
 
     def get_runs_with_bonus(self):
         return json.loads(self.runs_with_bonus)
+
+    def count_runs(self, runs):
+        for run in RUNS:
+            value = self.__getattribute__('{}_run'.format(run)).replace(
+                '\'', ''
+            )
+            try:
+                int(value)
+                runs['{}_run'.format(run)] += 1
+            except ValueError:
+                if value == 'D':
+                    runs['defects'] += 1
+                elif value == 'W':
+                    runs['exclusions'] += 1
+                elif value == 'T':
+                    runs['tape'] += 1
+                elif value == 'U' or value == 'u':
+                    runs['fall'] += 1
+                elif value == '-':
+                    runs['change'] += 1
+                elif value == '-':
+                    runs['timeout'] += 1
+        return runs
+
+    def count_points_in_runs(self, points):
+        for i, run in enumerate(RUNS, 0):
+            value = self.__getattribute__('{}_run'.format(run)).replace(
+                '\'', ''
+            )
+            try:
+                value = int(value)
+                points['points_in_{}_run'.format(RUNS[i])] += value
+            except ValueError:
+                pass
+        return points
+
+    def count_places(self, places):
+        for i, run in enumerate(RUNS, 0):
+            value = self.__getattribute__('{}_run'.format(run)).replace(
+                '\'', ''
+            )
+            try:
+                value = int(value)
+                if value == 3:
+                    places['first_places'] += 1
+                elif value == 2:
+                    places['second_places'] += 1
+                elif value == 1:
+                    places['third_places'] += 1
+                elif value == 0:
+                    places['fourth_places'] += 1
+            except ValueError:
+                if value != ' ':
+                    places['other_events'] += 1
+        return places
+
+    def count_places_in_runs(self, place_in_run):
+        for i, run in enumerate(RUNS, 0):
+            value = self.__getattribute__('{}_run'.format(run)).replace(
+                '\'', ''
+            )
+            try:
+                value = int(value)
+                if value == 3:
+                    place_in_run['first_place_in_{}_run'.format(run)] += 1
+                elif value == 2:
+                    place_in_run['second_place_in_{}_run'.format(run)] += 1
+                elif value == 1:
+                    place_in_run['third_place_in_{}_run'.format(run)] += 1
+                elif value == 0:
+                    place_in_run['fourth_place_in_{}_run'.format(run)] += 1
+            except ValueError:
+                pass
+        return place_in_run
 
     class Meta:
         unique_together = ('rider', 'match')

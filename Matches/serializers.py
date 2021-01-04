@@ -139,6 +139,7 @@ class RiderStatsSerializer(serializers.Serializer):
     second_place_in_seventh_run = serializers.IntegerField()
     third_place_in_seventh_run = serializers.IntegerField()
     fourth_place_in_seventh_run = serializers.IntegerField()
+    year = serializers.IntegerField(required=False)
 
     class Meta:
         fields = ('first_run', 'second_run', 'third_run', 'fourth_run',
@@ -163,4 +164,5 @@ class RiderStatsSerializer(serializers.Serializer):
                   'third_place_in_sixth_run', 'fourth_place_in_sixth_run',
                   'first_place_in_seventh_run', 'second_place_in_seventh_run',
                   'third_place_in_seventh_run', 'fourth_place_in_seventh_run',
+                  'year'
                   )

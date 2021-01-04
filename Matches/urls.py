@@ -39,6 +39,11 @@ urlpatterns = [
     path(
         'rider_stats/<rider_id>/<yyyy:year>',
         views.RiderStatsInYear.as_view(),
-        name='rider_stats_n_year',
-    )
+        name='rider_stats_in_year',
+    ),
+    path(
+        'rider_stats_in_years/<rider_id>',
+        views.RiderStatsInYears.as_view(),
+        name='rider stats in years'
+    ),
 ]

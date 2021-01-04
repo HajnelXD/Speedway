@@ -15,6 +15,7 @@ class SeasonMatchesView(APIView):
 
     def get(self, request, year, format=None):
         matches = Match.objects.filter(date__year=year)
+        print(matches)
         serializer = MatchSetializer(matches, many=True)
         return Response(serializer.data)
 
@@ -324,5 +325,60 @@ class RiderStatsInYear(APIView):
         data.update(points_in_run)
         data.update(places)
         data.update(places_in_run)
+        print(data)
         serializer = RiderStatsSerializer(data, many=False)
         return Response(serializer.data)
+
+
+class RiderStatsInYears(APIView):
+    """Rider stats details in years"""
+
+    def get(self, request, rider_id, format=None):
+        matches = MatchPoints.objects.filter(
+            rider_id=rider_id
+        )
+        results = {}
+        for match in matches:
+            runs = match.count_runs_in_year()
+            if runs['year'] in results:
+                results[runs['year']] = adding_dicts(
+                    results[runs['year']], runs
+                )
+            else:
+                results[runs['year']] = runs
+            points = match.count_points_in_years()
+            if points['year'] in results:
+                results[points['year']] = adding_dicts(
+                    results[points['year']], points
+                )
+            else:
+                results[points['year']] = points
+            places = match.count_places_in_year()
+            if places['year'] in results:
+                results[places['year']] = adding_dicts(
+                    results[places['year']], places
+                )
+            else:
+                results[points['year']] = points
+            places_in_run = match.count_places_in_runs_in_year()
+            if places_in_run['year'] in results:
+                results[places_in_run['year']] = adding_dicts(
+                    results[places_in_run['year']], places_in_run
+                )
+            else:
+                results[points['year']] = points
+
+        data = []
+        for value in results.values():
+            data.append(value)
+        serializer = RiderStatsSerializer(data, many=True)
+        return Response(serializer.data)
+
+
+def adding_dicts(previous, added):
+    for key, value in added.items():
+        if key in previous and key != 'year':
+            previous[key] += value
+        else:
+            previous[key] = value
+    return previous

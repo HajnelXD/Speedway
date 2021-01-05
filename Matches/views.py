@@ -371,6 +371,7 @@ class RiderStatsInYears(APIView):
         data = []
         for value in results.values():
             data.append(value)
+        data = sorted(data, key=lambda r: r['year'])
         serializer = RiderStatsSerializer(data, many=True)
         return Response(serializer.data)
 

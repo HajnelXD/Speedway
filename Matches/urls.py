@@ -42,8 +42,23 @@ urlpatterns = [
         name='rider_stats_in_year',
     ),
     path(
-        'rider_stats_in_years/<rider_id>',
-        views.RiderStatsInYears.as_view(),
-        name='rider stats in years'
+        'rider_run_stats/<rider_id>',
+        views.RiderRunsInYears.as_view(),
+        name='rider run stats in all years'
+    ),
+    path(
+        'rider_points_stats/<rider_id>',
+        views.RiderPointsInYears.as_view(),
+        name='rider points stats in all years'
+    ),
+    path(
+        'rider_places_stats/<rider_id>',
+        views.RiderPlacesInYears.as_view(),
+        name='rider places stats in all years'
+    ),
+    path(
+        'rider_place_runs_stats/<rider_id>',
+        views.RiderPlaceRunsInYears.as_view(),
+        name='rider places in run stats in all years'
     ),
 ]

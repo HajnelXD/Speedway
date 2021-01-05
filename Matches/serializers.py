@@ -166,3 +166,111 @@ class RiderStatsSerializer(serializers.Serializer):
                   'third_place_in_seventh_run', 'fourth_place_in_seventh_run',
                   'year'
                   )
+
+
+class RiderRunStatsSerializer(serializers.Serializer):
+    year = serializers.IntegerField(required=False)
+    first_run = serializers.IntegerField()
+    second_run = serializers.IntegerField()
+    third_run = serializers.IntegerField()
+    fourth_run = serializers.IntegerField()
+    fifth_run = serializers.IntegerField()
+    sixth_run = serializers.IntegerField()
+    seventh_run = serializers.IntegerField()
+    defects = serializers.IntegerField()
+    exclusions = serializers.IntegerField()
+    tape = serializers.IntegerField()
+    fall = serializers.IntegerField()
+    change = serializers.IntegerField()
+    timeout = serializers.IntegerField()
+
+    class Meta:
+        fields = (
+            'first_run', 'second_run', 'third_run', 'fourth_run', 'fifth_run',
+            'sixth_run', 'seventh_run', 'defects', 'exclusions', 'tape',
+            'fall', 'change', 'timeout', 'year',
+        )
+
+
+class RiderPointsStatsSerializer(serializers.Serializer):
+    year = serializers.IntegerField(required=False)
+    points_in_first_run = serializers.IntegerField()
+    points_in_second_run = serializers.IntegerField()
+    points_in_third_run = serializers.IntegerField()
+    points_in_fourth_run = serializers.IntegerField()
+    points_in_fifth_run = serializers.IntegerField()
+    points_in_sixth_run = serializers.IntegerField()
+    points_in_seventh_run = serializers.IntegerField()
+
+    class Meta:
+        fields = (
+            'points_in_first_run', 'points_in_second_run',
+            'points_in_third_run', 'points_in_fourth_run',
+            'points_in_fifth_run', 'points_in_sixth_run',
+            'points_in_seventh_run', 'year'
+        )
+
+
+class RiderPlacesStatsSerializer(serializers.Serializer):
+    first_places = serializers.IntegerField()
+    second_places = serializers.IntegerField()
+    third_places = serializers.IntegerField()
+    fourth_places = serializers.IntegerField()
+    other_events = serializers.IntegerField()
+
+    class Meta:
+        fields = (
+            'first_places', 'second_places', 'third_places', 'fourth_places',
+            'other_events', 'year'
+        )
+
+
+class RiderPlaceRunsStatsSerializer(serializers.Serializer):
+    year = serializers.IntegerField(required=False)
+    first_place_in_first_run = serializers.IntegerField()
+    second_place_in_first_run = serializers.IntegerField()
+    third_place_in_first_run = serializers.IntegerField()
+    fourth_place_in_first_run = serializers.IntegerField()
+    first_place_in_second_run = serializers.IntegerField()
+    second_place_in_second_run = serializers.IntegerField()
+    third_place_in_second_run = serializers.IntegerField()
+    fourth_place_in_second_run = serializers.IntegerField()
+    first_place_in_third_run = serializers.IntegerField()
+    second_place_in_third_run = serializers.IntegerField()
+    third_place_in_third_run = serializers.IntegerField()
+    fourth_place_in_third_run = serializers.IntegerField()
+    first_place_in_fourth_run = serializers.IntegerField()
+    second_place_in_fourth_run = serializers.IntegerField()
+    third_place_in_fourth_run = serializers.IntegerField()
+    fourth_place_in_fourth_run = serializers.IntegerField()
+    first_place_in_fifth_run = serializers.IntegerField()
+    second_place_in_fifth_run = serializers.IntegerField()
+    third_place_in_fifth_run = serializers.IntegerField()
+    fourth_place_in_fifth_run = serializers.IntegerField()
+    first_place_in_sixth_run = serializers.IntegerField()
+    second_place_in_sixth_run = serializers.IntegerField()
+    third_place_in_sixth_run = serializers.IntegerField()
+    fourth_place_in_sixth_run = serializers.IntegerField()
+    first_place_in_seventh_run = serializers.IntegerField()
+    second_place_in_seventh_run = serializers.IntegerField()
+    third_place_in_seventh_run = serializers.IntegerField()
+    fourth_place_in_seventh_run = serializers.IntegerField()
+
+    class Meta:
+        fields = (
+            'first_place_in_first_run', 'second_place_in_first_run',
+            'third_place_in_first_run', 'fourth_place_in_first_run',
+            'first_place_in_second_run', 'second_place_in_second_run',
+            'third_place_in_second_run', 'fourth_place_in_second_run',
+            'first_place_in_third_run', 'second_place_in_third_run',
+            'third_place_in_third_run', 'fourth_place_in_third_run',
+            'first_place_in_fourth_run', 'second_place_in_fourth_run',
+            'third_place_in_fourth_run', 'fourth_place_in_fourth_run',
+            'first_place_in_fifth_run', 'second_place_in_fifth_run',
+            'third_place_in_fifth_run', 'fourth_place_in_fifth_run',
+            'first_place_in_sixth_run', 'second_place_in_sixth_run',
+            'third_place_in_sixth_run', 'fourth_place_in_sixth_run',
+            'first_place_in_seventh_run', 'second_place_in_seventh_run',
+            'third_place_in_seventh_run', 'fourth_place_in_seventh_run',
+            'year'
+        )

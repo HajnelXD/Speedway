@@ -5,7 +5,8 @@ from operator import itemgetter
 from Matches.models import Match, MatchPoints
 from Matches.serializers import (
     MatchSetializer, MatchPointsSerializer, TeamRidersPointsSerializer,
-    RiderStatsSerializer
+    RiderStatsSerializer, RiderRunStatsSerializer, RiderPointsStatsSerializer,
+    RiderPlacesStatsSerializer, RiderPlaceRunsStatsSerializer
 )
 from Riders.models import RiderInfo
 
@@ -325,14 +326,12 @@ class RiderStatsInYear(APIView):
         data.update(points_in_run)
         data.update(places)
         data.update(places_in_run)
-        print(data)
         serializer = RiderStatsSerializer(data, many=False)
         return Response(serializer.data)
 
 
-class RiderStatsInYears(APIView):
-    """Rider stats details in years"""
-
+class RiderRunsInYears(APIView):
+    """Rider stats about runs in all years"""
     def get(self, request, rider_id, format=None):
         matches = MatchPoints.objects.filter(
             rider_id=rider_id
@@ -346,6 +345,22 @@ class RiderStatsInYears(APIView):
                 )
             else:
                 results[runs['year']] = runs
+        data = []
+        for value in results.values():
+            data.append(value)
+        data = sorted(data, key=lambda r: r['year'])
+        serializer = RiderRunStatsSerializer(data, many=True)
+        return Response(serializer.data)
+
+
+class RiderPointsInYears(APIView):
+    """Rider stats about points in all years"""
+    def get(self, request, rider_id, format=None):
+        matches = MatchPoints.objects.filter(
+            rider_id=rider_id
+        )
+        results = {}
+        for match in matches:
             points = match.count_points_in_years()
             if points['year'] in results:
                 results[points['year']] = adding_dicts(
@@ -353,26 +368,57 @@ class RiderStatsInYears(APIView):
                 )
             else:
                 results[points['year']] = points
+        data = []
+        for value in results.values():
+            data.append(value)
+        data = sorted(data, key=lambda r: r['year'])
+        serializer = RiderPointsStatsSerializer(data, many=True)
+        return Response(serializer.data)
+
+
+class RiderPlacesInYears(APIView):
+    """Rider stats about places in all years"""
+    def get(self, request, rider_id, format=None):
+        matches = MatchPoints.objects.filter(
+            rider_id=rider_id
+        )
+        results = {}
+        for match in matches:
             places = match.count_places_in_year()
             if places['year'] in results:
                 results[places['year']] = adding_dicts(
                     results[places['year']], places
                 )
             else:
-                results[points['year']] = points
-            places_in_run = match.count_places_in_runs_in_year()
-            if places_in_run['year'] in results:
-                results[places_in_run['year']] = adding_dicts(
-                    results[places_in_run['year']], places_in_run
-                )
-            else:
-                results[points['year']] = points
-
+                results[places['year']] = places
         data = []
         for value in results.values():
             data.append(value)
         data = sorted(data, key=lambda r: r['year'])
-        serializer = RiderStatsSerializer(data, many=True)
+        serializer = RiderPlacesStatsSerializer(data, many=True)
+        return Response(serializer.data)
+
+
+class RiderPlaceRunsInYears(APIView):
+    """Rider stats about place in runs in all years"""
+    def get(self, request, rider_id, format=None):
+        matches = MatchPoints.objects.filter(
+            rider_id=rider_id
+        )
+        results = {}
+        for match in matches:
+            place_in_run = match.count_places_in_runs_in_year()
+            if place_in_run['year'] in results:
+                results[place_in_run['year']] = adding_dicts(
+                    results[place_in_run['year']], place_in_run
+                )
+            else:
+                results[place_in_run['year']] = place_in_run
+        data = []
+        for value in results.values():
+            data.append(value)
+        data = sorted(data, key=lambda r: r['year'])
+        serializer = RiderPlaceRunsStatsSerializer(data, many=True)
         return Response(serializer.data)
 
 

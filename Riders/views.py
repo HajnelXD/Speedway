@@ -36,10 +36,21 @@ class RiderInfoView(APIView):
 
 
 class TeamRidersList(APIView):
+
     def get(self, request, year, team_id, format=None):
         riders_list = RiderInfo.objects.filter(
             year__year=year,
             team_id=team_id,
         )
         serializer = RiderInfoSerializer(riders_list, many=True)
+        return Response(serializer.data)
+
+
+class RiderView(APIView):
+
+    def get(self, request, rider_id, format=None):
+        rider = Rider.objects.filter(
+            id=rider_id
+        )
+        serializer = RiderSerializer(rider, many=True)
         return Response(serializer.data)

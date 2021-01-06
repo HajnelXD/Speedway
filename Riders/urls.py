@@ -10,5 +10,6 @@ urlpatterns = [
     path('ridersinfo/<yyyy:year>/<team_id>',
          views.TeamRidersList.as_view(),
          name='ridersinfo'
-         )
+         ),
+    path('riders/<rider_id>', views.RiderView.as_view(), name='rider')
     ]

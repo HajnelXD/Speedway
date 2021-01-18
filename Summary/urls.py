@@ -5,5 +5,9 @@ register_converter(converters.FourDigitYearConverter, 'yyyy')
 
 urlpatterns = [
     path('', views.SummaryList.as_view(), name='summary'),
-    path('<yyyy:year>', views.SummaryDetails.as_view(), name='summary_details'),
+    path(
+        '<yyyy:year>',
+        views.SummaryDetails.as_view(),
+        name='summary_details'
+    ),
 ]

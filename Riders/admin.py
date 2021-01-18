@@ -10,7 +10,7 @@ class RiderAdmin(admin.ModelAdmin):
 
 
 @admin.register(RiderInfo)
-class RiderAdmin(admin.ModelAdmin):
+class RiderInfoAdmin(admin.ModelAdmin):
     list_display = ('rider', 'team', 'year', 'junior')
     search_fields = ('rider', 'team', 'year', 'junior')
     ordering = ('rider',)

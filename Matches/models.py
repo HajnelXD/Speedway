@@ -13,6 +13,7 @@ PLACES = [
     'first_places', 'second_places', 'third_places', 'fourth_places'
 ]
 
+
 class Match(models.Model):
     home_team = models.ForeignKey(
         Team,
@@ -63,12 +64,6 @@ class MatchPoints(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     number = models.IntegerField()
     points = models.IntegerField()
-
-    def set_runs_with_bonus(self, runs):
-        self.runs_with_bonus = json.dumps(runs)
-
-    def get_runs_with_bonus(self):
-        return json.loads(self.runs_with_bonus)
 
     def count_runs(self, runs):
         for run in RUNS:
@@ -171,7 +166,7 @@ class MatchPoints(models.Model):
                 if value == 'D':
                     runs['defects'] += 1
                 elif value == 'W':
-                    runs['exclusions'] +=+1
+                    runs['exclusions'] += +1
                 elif value == 'T':
                     runs['tape'] += 1
                 elif value == 'U' or value == 'u':

@@ -1,8 +1,4 @@
-from django.db import IntegrityError
 from django.test import TestCase
-from django.urls import reverse
-from rest_framework import status
-from rest_framework.test import APIClient
 from Matches.models import MatchPoints, Match
 from Riders.models import Rider
 from Teams.models import Team

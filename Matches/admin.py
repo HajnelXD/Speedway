@@ -3,7 +3,7 @@ from Matches.models import Match, MatchPoints
 
 
 @admin.register(Match)
-class RiderAdmin(admin.ModelAdmin):
+class MatchAdmin(admin.ModelAdmin):
     list_display = (
         'home_team',
         'home_team_points',
@@ -13,12 +13,14 @@ class RiderAdmin(admin.ModelAdmin):
         'isFinished',
         'queue',
     )
-    search_fields = ('home_team', 'guest_team', 'date', 'isFinished', 'queue', 'playoff')
+    search_fields = (
+        'home_team', 'guest_team', 'date', 'isFinished', 'queue', 'playoff'
+    )
     ordering = ('date',)
 
 
 @admin.register(MatchPoints)
-class RiderAdmin(admin.ModelAdmin):
+class MatchPointsAdmin(admin.ModelAdmin):
     list_display = (
         'rider',
         'match',

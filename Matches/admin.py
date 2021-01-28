@@ -14,7 +14,12 @@ class MatchAdmin(admin.ModelAdmin):
         'queue',
     )
     search_fields = (
-        'home_team', 'guest_team', 'date', 'isFinished', 'queue', 'playoff'
+        'home_team__team_name',
+        'guest_team__team_name',
+        'date',
+        'isFinished',
+        'queue',
+        'playoff',
     )
     ordering = ('date',)
 
@@ -30,5 +35,11 @@ class MatchPointsAdmin(admin.ModelAdmin):
         'number',
         'joker_rider'
     )
-    search_fields = ('rider', 'match', 'runs', 'bonuses', 'team', 'number',)
-    ordering = ('rider',)
+    search_fields = (
+        'rider__last_name',
+        'match__home_team__team_name',
+        'match__guest_team__team_name',
+        'runs', 'bonuses', 'team__team_name',
+        'number',
+    )
+    ordering = ('rider__last_name',)

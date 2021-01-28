@@ -12,5 +12,11 @@ class RiderAdmin(admin.ModelAdmin):
 @admin.register(RiderInfo)
 class RiderInfoAdmin(admin.ModelAdmin):
     list_display = ('rider', 'team', 'year', 'junior')
-    search_fields = ('rider', 'team', 'year', 'junior')
+    search_fields = (
+        'rider__last_name',
+        'rider__first_name',
+        'team__team_name',
+        'year__year',
+        'junior'
+    )
     ordering = ('rider',)

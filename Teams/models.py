@@ -11,6 +11,7 @@ class Year(models.Model):
 class Team(models.Model):
     team_name = models.CharField(max_length=64, unique=True)
     stadium = models.CharField(max_length=256, unique=True)
+    team_photo = models.CharField(max_length=32, blank=True)
 
     def __str__(self):
         return self.team_name

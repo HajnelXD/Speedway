@@ -14,7 +14,9 @@ class ModelYearsTests(TestCase):
     def test_team_str(self):
         """Test year string representation"""
         sample_team = Team.objects.create(
-            team_name="Testowa nazwa",
+            team_name='Testowa nazwa',
+            stadium='Test',
+            team_photo='t',
         )
         self.assertEqual(str(sample_team), sample_team.team_name)
 
@@ -44,6 +46,7 @@ class TeamAPITests(TestCase):
         payload = {
             'team_name': 'Testowa drużyna',
             'stadium': 'Test',
+            'team_photo': 't',
         }
         res = self.client.post(TEAMS_URL, payload)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
@@ -57,6 +60,7 @@ class TeamAPITests(TestCase):
         payload = {
             'team_name': 'Testowa nazwa',
             'stadium': 'Test',
+            'team_photo': 't',
         }
         res = self.client.post(TEAMS_URL, payload)
         self.assertRaises(IntegrityError)

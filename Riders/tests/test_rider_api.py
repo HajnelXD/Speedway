@@ -16,7 +16,8 @@ def sample_rider():
         last_name="Kowalski",
         first_name="Andrzej",
         nationality="Poland",
-        birthday="2000-12-12"
+        birthday="2000-12-12",
+        rider_photo='t',
     )
 
 
@@ -25,10 +26,11 @@ class ModelRiderTests(TestCase):
     def test_team_str(self):
         """Test rider string representation"""
         sample_rider = Rider.objects.create(
-            last_name="Kowalski",
-            first_name="Andrzej",
-            nationality="Poland",
-            birthday="2000-12-12"
+            last_name='Kowalski',
+            first_name='Andrzej',
+            nationality='Poland',
+            birthday='2000-12-12',
+            rider_photo='t',
         )
         self.assertEqual(
             str(sample_rider),
@@ -56,7 +58,8 @@ class RidersAPITests(TestCase):
             'last_name': 'Kasperczak',
             'first_name': 'Henryk',
             'birthday': '2000-12-12',
-            'nationality': 'Poland'
+            'nationality': 'Poland',
+            'rider_photo': 't',
         }
         res = self.client.post(RIDERS_URL, payload)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
@@ -71,7 +74,8 @@ class RidersAPITests(TestCase):
             'last_name': 'Kowalski',
             'first_name': 'Andrzej',
             'birthday': '2000-12-12',
-            'nationality': 'Poland'
+            'nationality': 'Poland',
+            'rider_photo': 't',
         }
         res = self.client.post(RIDERS_URL, payload)
         self.assertRaises(IntegrityError)

@@ -15,7 +15,8 @@ class TeamsInfoModelsTests(TestCase):
         """Test year string representation"""
         sample_team = Team.objects.create(
             team_name='Testowa drużyna',
-            stadium='Testowy'
+            stadium='Testowy',
+            team_photo='t',
         )
         sample_year = Year.objects.create(
             year=2009
@@ -31,10 +32,11 @@ class TeamsInfoModelsTests(TestCase):
         self.assertEqual(str(team_info), str(sample_team))
 
 
-def sample_team_info(team, stadium, year):
+def sample_team_info(team, stadium, year, team_photo):
     sample_team = Team.objects.create(
         team_name=team,
         stadium=stadium,
+        team_photo=team_photo,
     )
     sample_year = Year.objects.create(
         year=year
@@ -52,7 +54,7 @@ class TeamsInfoAPITests(TestCase):
 
     def test_retrieve_teaminfo(self):
         """Test retrieving a list of riders info"""
-        sample_team_info('Testowa dtużyna', 'Testtowy', 2009)
+        sample_team_info('Testowa dtużyna', 'Testtowy', 2009, 't')
         res = self.client.get(TEAMS_INFO_URL)
         team_info = TeamInfo.objects.all().order_by('id')
         serializer = TeamInfoSerializer(team_info, many=True)
@@ -65,6 +67,7 @@ class TeamsInfoAPITests(TestCase):
             "team_name": {
                 "team_name": "Testowa dtużyna",
                 "stadium": "Testowy",
+                "team_photo": "t",
             },
             "years_in_ekstraliga": [
                 {
@@ -77,11 +80,12 @@ class TeamsInfoAPITests(TestCase):
 
     def test_add_exist_teaminfo(self):
         """Test of adiing an existing team"""
-        sample_team_info('Testowa dtużyna', 'Testowy', 2009)
+        sample_team_info('Testowa dtużyna', 'Testowy', 2009, 't')
         payload = {
             "team_name": {
                 "team_name": "Testowa dtużyna",
                 "stadium": "Testowy",
+                "team_photo": "t",
             },
             "years_in_ekstraliga": [
                 {

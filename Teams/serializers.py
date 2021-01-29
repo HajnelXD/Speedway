@@ -35,10 +35,11 @@ class TeamSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     team_name = serializers.CharField()
     stadium = serializers.CharField()
+    team_photo = serializers.CharField()
 
     class Meta:
         model = Team
-        fields = ('id', 'team_name', 'stadium')
+        fields = ('id', 'team_name', 'stadium', 'team_photo')
 
     def create(self, validated_data):
         try:

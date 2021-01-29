@@ -7,6 +7,7 @@ class Rider(models.Model):
     first_name = models.CharField(max_length=32)
     birthday = models.DateField(default='1900-12-12')
     nationality = models.CharField(max_length=32, default='Poland')
+    rider_photo = models.CharField(max_length=32, blank=True)
 
     class Meta:
         unique_together = ('last_name', 'first_name')

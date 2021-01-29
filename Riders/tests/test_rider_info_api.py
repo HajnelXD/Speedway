@@ -14,7 +14,9 @@ class ModelRiderInfoTest(TestCase):
     """Test Rider Info model"""
     def test_rider_info_str(self):
         sample_team = Team.objects.create(
-            team_name='testowa drużyna'
+            team_name='testowa drużyna',
+            stadium='Testowy',
+            team_photo='t',
         )
         sample_year = Year.objects.create(
             year=2009
@@ -23,7 +25,8 @@ class ModelRiderInfoTest(TestCase):
             last_name='Kowalski',
             first_name='Jan',
             birthday='2020-12-12',
-            nationality='Poland'
+            nationality='Poland',
+            rider_photo='t'
         )
         rider_info = RiderInfo(
             id=None,
@@ -40,9 +43,11 @@ class ModelRiderInfoTest(TestCase):
 
 
 def sample_rider_info(team_name, year, last_name, first_name, birthday,
-                      nationality):
+                      nationality, rider_photo, stadium, team_photo):
     sample_team = Team.objects.create(
-        team_name=team_name
+        team_name=team_name,
+        stadium=stadium,
+        team_photo=team_photo,
     )
     sample_year = Year.objects.create(
         year=year
@@ -51,7 +56,8 @@ def sample_rider_info(team_name, year, last_name, first_name, birthday,
         last_name=last_name,
         first_name=first_name,
         birthday=birthday,
-        nationality=nationality
+        nationality=nationality,
+        rider_photo=rider_photo,
     )
     rider_info = RiderInfo(
         id=None,
@@ -77,7 +83,10 @@ class RiderInfoAPITest(TestCase):
             'Smith',
             'Agent',
             '2000-12-12',
-            'Poland'
+            'Poland',
+            't',
+            'Testowy',
+            't'
         )
         res = self.client.get(RIDERSINFO_URL)
         rider_info = RiderInfo.objects.all().order_by('id')
@@ -93,11 +102,13 @@ class RiderInfoAPITest(TestCase):
                     "last_name": "Drabik",
                     "first_name": "Maksym",
                     "birthday": "2000-12-12",
-                    "nationality": "Poland"
+                    "nationality": "Poland",
+                    "rider_photo": "t"
                 },
             "team": {
                 "team_name": "Sparta Wrocław",
                 "stadium": "Testowy",
+                "team_photo": "t"
                 },
             "year": {
                 "year": 2019
@@ -115,18 +126,23 @@ class RiderInfoAPITest(TestCase):
             'Smith',
             'Agent',
             '2000-12-12',
-            'Poland'
+            'Poland',
+            't',
+            'Testowy',
+            't',
         )
         payload = {
             "rider": {
                 "last_name": "Smith",
                 "first_name": "Agent",
                 "birthday": "2000-12-12",
-                "nationality": "Poland"
+                "nationality": "Poland",
+                "rider_photo": "t"
             },
             "team": {
                 "team_name": "AKS",
                 "stadium": "Testowy",
+                "team_photo": 't',
             },
             "year": {
                 "year": 2008

@@ -11,10 +11,14 @@ class RiderSerializer(serializers.Serializer):
     first_name = serializers.CharField()
     birthday = serializers.DateField()
     nationality = serializers.CharField()
+    rider_photo = serializers.CharField()
 
     class Meta:
         model = Rider
-        fields = ('id', 'last_name', 'first_name', 'birthday', 'nationality')
+        fields = (
+            'id', 'last_name', 'first_name', 'birthday', 'nationality',
+            'rider_photo'
+        )
 
     def create(self, validated_data):
         try:
@@ -36,14 +40,16 @@ class RiderInfoSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         team = Team.objects.get_or_create(
-            team_name=validated_data['team']['team_name']
-
+            team_name=validated_data['team']['team_name'],
+            stadium=validated_data['team']['stadium'],
+            team_photo=validated_data['team']['team_photo'],
         )
         rider = Rider.objects.get_or_create(
             last_name=validated_data['rider']['last_name'],
             first_name=validated_data['rider']['first_name'],
             birthday=validated_data['rider']['birthday'],
-            nationality=validated_data['rider']['nationality']
+            nationality=validated_data['rider']['nationality'],
+            rider_photo=validated_data['rider']['rider_photo'],
         )
         year = Year.objects.get_or_create(year=validated_data['year']['year'])
         try:
@@ -51,7 +57,7 @@ class RiderInfoSerializer(serializers.Serializer):
                 rider=rider[0],
                 team=team[0],
                 year=year[0],
-                junior=validated_data['junior']
+                junior=validated_data['junior'],
             )
             return rider_info
         except IntegrityError:
